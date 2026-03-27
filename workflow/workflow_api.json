@@ -1,0 +1,290 @@
+{
+  "233": {
+    "inputs": {
+      "samples": [
+        "245",
+        0
+      ],
+      "vae": [
+        "236",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "234": {
+    "inputs": {
+      "text": "Use image 1 as the base image and preserve it exactly.\n\nChange only the clothing of the person from image 1 to the exact outfit from image 2.\n\nPreserve exactly from image 1:\n- identity\n- face\n- facial features\n- head shape\n- expression\n- skin tone\n- hair color\n- hair length\n- hairstyle\n- hair shape\n- pose\n- body proportions\n- background\n- framing\n- lighting\n- Physique\n- musculature\n\nDo not modify the face or the head.\nDo not change the hair color, hair shape, or hairstyle.\nIf there is no bottom in the Image 2, then there are bare legs.\nKeep the woman feminine and clean-shaven. Keep the man masculine.\n\nTransfer only from image 2:\n- the clothing design\n- the outfit structure\n- the clothing colors\n- the fabric appearance\n- the sleeves\n- the neckline\n- the accessories of the outfit\n\nPhotorealistic, realistic skin texture, correct anatomy, natural proportions.",
+      "clip": [
+        "251",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Positive Prompt)"
+    }
+  },
+  "235": {
+    "inputs": {
+      "text": "",
+      "clip": [
+        "251",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Negative Prompt)"
+    }
+  },
+  "236": {
+    "inputs": {
+      "vae_name": "flux2-vae.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "Load VAE"
+    }
+  },
+  "237": {
+    "inputs": {
+      "width": [
+        "240",
+        0
+      ],
+      "height": [
+        "240",
+        1
+      ],
+      "batch_size": 1
+    },
+    "class_type": "EmptyFlux2LatentImage",
+    "_meta": {
+      "title": "Empty Flux 2 Latent"
+    }
+  },
+  "238": {
+    "inputs": {
+      "upscale_method": "nearest-exact",
+      "megapixels": 1,
+      "resolution_steps": 1,
+      "image": [
+        "241",
+        0
+      ]
+    },
+    "class_type": "ImageScaleToTotalPixels",
+    "_meta": {
+      "title": "ImageScaleToTotalPixels"
+    }
+  },
+  "240": {
+    "inputs": {
+      "image": [
+        "238",
+        0
+      ]
+    },
+    "class_type": "GetImageSize",
+    "_meta": {
+      "title": "Get Image Size"
+    }
+  },
+  "241": {
+    "inputs": {
+      "image": "request.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Image"
+    }
+  },
+  "242": {
+    "inputs": {
+      "filename_prefix": "costume",
+      "images": [
+        "233",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "245": {
+    "inputs": {
+      "seed": 1,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "252",
+        0
+      ],
+      "positive": [
+        "248:199",
+        0
+      ],
+      "negative": [
+        "248:197",
+        0
+      ],
+      "latent_image": [
+        "237",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "246": {
+    "inputs": {
+      "image": "costume.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Image"
+    }
+  },
+  "247": {
+    "inputs": {
+      "upscale_method": "nearest-exact",
+      "megapixels": 1,
+      "resolution_steps": 1,
+      "image": [
+        "246",
+        0
+      ]
+    },
+    "class_type": "ImageScaleToTotalPixels",
+    "_meta": {
+      "title": "ImageScaleToTotalPixels"
+    }
+  },
+  "251": {
+    "inputs": {
+      "clip_name": "qwen_3_8b_fp8mixed.safetensors",
+      "type": "flux2",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "Load CLIP"
+    }
+  },
+  "252": {
+    "inputs": {
+      "unet_name": "flux-2-klein-9b-fp8.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "Load Diffusion Model"
+    }
+  },
+  "239:148": {
+    "inputs": {
+      "conditioning": [
+        "235",
+        0
+      ],
+      "latent": [
+        "239:149",
+        0
+      ]
+    },
+    "class_type": "ReferenceLatent",
+    "_meta": {
+      "title": "ReferenceLatent"
+    }
+  },
+  "239:149": {
+    "inputs": {
+      "pixels": [
+        "238",
+        0
+      ],
+      "vae": [
+        "236",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "239:150": {
+    "inputs": {
+      "conditioning": [
+        "234",
+        0
+      ],
+      "latent": [
+        "239:149",
+        0
+      ]
+    },
+    "class_type": "ReferenceLatent",
+    "_meta": {
+      "title": "ReferenceLatent"
+    }
+  },
+  "248:197": {
+    "inputs": {
+      "conditioning": [
+        "239:148",
+        0
+      ],
+      "latent": [
+        "248:198",
+        0
+      ]
+    },
+    "class_type": "ReferenceLatent",
+    "_meta": {
+      "title": "ReferenceLatent"
+    }
+  },
+  "248:198": {
+    "inputs": {
+      "pixels": [
+        "247",
+        0
+      ],
+      "vae": [
+        "236",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "248:199": {
+    "inputs": {
+      "conditioning": [
+        "239:150",
+        0
+      ],
+      "latent": [
+        "248:198",
+        0
+      ]
+    },
+    "class_type": "ReferenceLatent",
+    "_meta": {
+      "title": "ReferenceLatent"
+    }
+  }
+}
