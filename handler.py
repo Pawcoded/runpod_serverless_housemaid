@@ -3,13 +3,19 @@ import json
 
 import runpod
 
-import handler_base as base
+from cached_model_links import link_cached_model_for_comfyui
 
 WORKFLOW_PATH = "/workflow/workflow_api.json"
 REQUEST_IMAGE_NAME = "request.png"
 
+# Optional cached-model linking.
+# Comment out the next line to rely only on baked-in models and/or network volume.
+link_cached_model_for_comfyui()
+
 with open(WORKFLOW_PATH, "r", encoding="utf-8") as f:
     WORKFLOW_TEMPLATE = json.load(f)
+
+import handler_base as base
 
 
 def handler(job):
